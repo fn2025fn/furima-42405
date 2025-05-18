@@ -3,6 +3,10 @@ class ItemsController < ApplicationController
     @items = Item.all
   end
 
+  def new
+    @item = Item.new
+  end
+
   private
 
   def item_params
