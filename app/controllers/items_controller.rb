@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
-  before_action :redirect_unless_authorized, only: [:edit, :update]
   before_action :set_item, only: [:edit, :show, :update]
+  before_action :redirect_unless_authorized, only: [:edit, :update]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -46,7 +46,6 @@ class ItemsController < ApplicationController
   end
 
   def redirect_unless_authorized
-    @item = Item.find(params[:id])
     redirect_to root_path if current_user != @item.user
   end
 end
