@@ -10,10 +10,10 @@ class PurchaseAddress
     validates :city
     validates :address
     validates :phone_number
-    validates :token
+    # validates :token
   end
   validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: 'is invalid. Include hyphen(-)' }
-  validates :phone_number, format: { with: /\A\d{10,11}\z/, message:  'must be 10 or 11 digits without hyphens' }
+  validates :phone_number, format: { with: /\A\d{10,11}\z/, message:  'input only number' }
   validates :prefecture_id, numericality: { other_than: 0, message: "can't be blank" }
 
   def save
@@ -25,6 +25,6 @@ class PurchaseAddress
                    address: address,
                    building: building,
                    phone_number: phone_number,
-                   order_id: order.id)
+                   purchase_id: purchase.id)
   end
 end
