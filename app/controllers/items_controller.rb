@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:edit, :show, :update, :destroy]
+  before_action :move_to_root_path, only: [:edit, :update, :destroy]
   before_action :redirect_unless_authorized, only: [:edit, :update]
 
   def index
@@ -48,6 +49,12 @@ class ItemsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def move_to_root_path
+    return unless current_user.id != @item.user.id || @item.purchase.present?
+
+    redirect_to root_path
   end
 
   def redirect_unless_authorized
