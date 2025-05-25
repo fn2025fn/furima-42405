@@ -85,5 +85,15 @@ RSpec.describe PurchaseAddress, type: :model do
       @purchase_address.valid?
       expect(@purchase_address.errors.full_messages).to include("Token can't be blank")
     end
+    it 'cityが空では保存できないこと' do
+      @purchase_address.city = nil
+      @purchase_address.valid?
+      expect(@purchase_address.errors.full_messages).to include("City can't be blank")
+    end
+    it 'addressが空では保存できないこと' do
+      @purchase_address.address = nil
+      @purchase_address.valid?
+      expect(@purchase_address.errors.full_messages).to include("Address can't be blank")
+    end
   end
 end
