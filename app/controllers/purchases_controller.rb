@@ -3,6 +3,7 @@ class PurchasesController < ApplicationController
   before_action :set_item
 
   def index
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     if current_user == @item.user || @item.purchase.present?
       redirect_to root_path
     else
@@ -13,6 +14,12 @@ class PurchasesController < ApplicationController
   def create
     @purchase_address = PurchaseAddress.new(purchase_address_params)
     if @purchase_address.valid?
+      Payjp.api_key = ENV['PAYJP_SECRET_KEY']
+      Payjp::Charge.create(
+        amount: @item.price,
+        card: purchase_address_params[:token],
+        currency: 'jpy'
+      )
       @purchase_address.save
       redirect_to root_path
     else
