@@ -10,6 +10,7 @@ const pay = () => {
   expiryElement.mount('#expiry-form');
   cvcElement.mount('#cvc-form');
   const form = document.getElementById('charge-form')
+  if(!form)return;
   form.addEventListener("submit", (e) => {
     payjp.createToken(numberElement).then(function (response) {
       if (response.error) {
